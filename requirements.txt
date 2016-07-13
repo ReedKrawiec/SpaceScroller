@@ -4,4 +4,5 @@ filemagic==1.6
 pytag==0.1.5
 requests==2.9.1
 stagger==1.0.0
+whitenoise==3.2
 youtube-dl==2016.5.1
