@@ -1,0 +1,241 @@
+@import 'imports/Normalize';
+
+@font-face{
+  font-family: Lemon;
+  src:url("/static/assets/fonts/LemonMilk.otf");
+}
+
+html{
+  background-color:#bfbfbf;
+  font-family:Lemon,"Helvetica Neue", Helvetica, Arial, sans-serif; 
+}
+
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:130px;
+  display:flex;
+  align-content: center;
+  justify-content: center;
+  z-index: 2;
+  p{
+    margin:30px;
+    font:{
+      weight: 800;
+      size:3em;
+    }
+  }
+  .header-main{
+    width:100%;
+    background-color:#1a1a1a;
+    color:white;
+  }
+}
+
+.card-holder{
+  transform: translateZ(0);
+  display:flex;
+  align-content: center;
+  justify-content: center;
+  flex-wrap:wrap;
+}
+
+.fullView{
+  cursor:pointer;
+  z-index:5;
+  position:fixed;
+  left:0px;
+  top:0px;
+  height:100%;
+  width:100%;
+  background-color:rgba(0,0,0,0.5);
+  text-align: center;
+  .fullPageHolder{
+    height:100vh;
+  }
+  .container{
+    pointer-events: none;
+    overflow: auto;
+    height:80%;
+    cursor:default;
+    width:80%;
+    top:50%;
+    left:50%;
+    transform:translateY(-50%) translateX(-50%);
+    display:flex;
+    position:absolute;
+    .text-positioner{
+      background-color:#1a1a1a;
+      color:white;
+      width:100%;
+      display:flex;
+      justify-content: flex-end;
+      align-items:center;
+      flex-direction: column;
+      text-align: left;
+      pointer-events: auto; 
+      padding:20px;
+      .poster{
+        width:100%;
+        &:after{
+          font-size:.7em;
+          content:'-Reddit User';
+          font-family:Helvetica;
+        }
+      }
+    }
+  }
+  .title{
+    font-family:Helvetica;
+    width:100%;
+  }
+  .url{
+    font-size:1em;
+    text-align: left;
+    width:100%;  
+    display:block;
+    color:#66ccff;
+    margin-top:1em;
+    margin-bottom:1em;
+    text-decoration: none;
+    &:hover{
+      text-decoration: underline;
+    }
+  }
+  .img{
+    display:flex;
+    width:100%;
+    height:100%; 
+    align-items:center;
+    justify-content: center;
+    img{
+      outline:solid 10px #1a1a1a;
+    }
+  }
+  .portrait{
+    height:90%;
+    width:auto;
+    pointer-events: auto;
+  }
+  .landscape{
+    width:90%;
+    height:auto;
+    pointer-events: auto;
+  }
+  .text-container{
+    width:80%;
+    font-size:1.5em;
+    padding:20px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.grid{
+  margin-top:130px;
+  margin-right:auto;
+  margin-left:auto;
+}
+
+.pic-card{
+  width:500px;
+  color:white;
+  text-align: center;
+  margin:20px;
+  .main-container{
+    cursor:pointer;
+    animation: popin 1s ease-in-out;
+    animation-fill-mode: forwards;
+    background-color:#1a1a1a;
+    width:100%;
+    transition:all 1s;
+    img{
+      width:90%;
+      margin:5%;
+    }
+  }
+}
+
+.column{
+  display:flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+@keyframes popin{
+  0%{
+    transform:scale(.1,.1);
+  }
+  95%{
+    transform:scale(1.05,1.05);
+  }
+  100%{
+    transform:scale(1,1);
+  }
+}
+
+.fullLoader{
+  height:calc(100% - 130px);
+  width:100%;
+  background-color:#1a1a1a;
+  position:fixed;
+  left:0;
+  top:130px;
+  z-index:2;
+  .loader{
+    position:relative;
+    top:calc(50% - 100px);
+    left:calc(50% - 100px);
+    height:100px;
+    width:100px;
+    border-radius:100%;
+    border:solid 2px black;
+    overflow:hidden;
+    animation:spin 4s infinite linear;
+    div:nth-child(1){
+      height:50px;
+      width:50px;
+      position:absolute;
+      background-color:white;
+      top:-5px;
+      left:-5px;
+      border:solid 2px black;
+    }
+    div:nth-child(2){
+      height:50px;
+      width:50px;
+      position:absolute;
+      background-color:white;
+      top:-5px;
+      left:55px;
+      border:solid 2px black;
+    }
+    div:nth-child(3){
+      height:50px;
+      width:50px;
+      position:absolute;
+      background-color:white;
+      top:55px;
+      left:55px;
+      border:solid 2px black;
+    }
+    div:nth-child(4){
+      height:50px;
+      width:50px;
+      position:absolute;
+      background-color:white;
+      top:55px;
+      left:-5px;
+      border:solid 2px black;
+    }
+  }
+}
+@keyframes spin {
+    from {transform:rotate(0deg) ;}
+    to {transform:rotate(359deg);}
+}
