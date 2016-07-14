@@ -1,16 +1,19 @@
-from django.http import HttpResponse
-from django.template import loader
+from flask import Flask
+from flask import request
 import requests
 import json
 
-def index(request):
-  template = loader.get_template('spacescroll/index.html')
-  return HttpResponse(template.render({},request))
+app = Flask(__name__)
 
-def requestUrl(request):
+@app.route('/')
+def hello_world():
+    return app.send_static_file('html/index.html')
+
+@app.route('/requestUrl')
+def requestUrl():
   headers = {'User-Agent' : 'SpaceScroller'}
-  num = request.GET.get('num')
-  after = request.GET.get('after')
+  num = request.args.get('num')
+  after = request.args.get('after')
   if num == None:
     num = "0"
     print("hello")
@@ -39,8 +42,16 @@ def requestUrl(request):
       }
       dataList.append(threadToAppend)
     finalObj['data'] = dataList
-    return HttpResponse(json.dumps(finalObj))
+    return json.dumps(finalObj)
   elif r.status_code == 404:
     finalObj = {'error':1}
-    return HttpResponse(json.dumps(finalObj))
+    return json.dumps(finalObj)
 
+@app.route('/static/<path:path>')
+def send_js(path):
+    return "meme" + path   
+"""
+@app.route('/static/<path:path>')
+def catch_all(path):
+    return 'You want path: %s' % path 
+"""

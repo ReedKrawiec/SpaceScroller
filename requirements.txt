@@ -1,8 +1,4 @@
 BASC-py4chan==0.6.0
-Django==1.9.7
-filemagic==1.6
-pytag==0.1.5
+Flask==0.11.1
 requests==2.9.1
-stagger==1.0.0
-whitenoise==3.2
-youtube-dl==2016.5.1
+
