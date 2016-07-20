@@ -13,7 +13,7 @@ class FullScreenView extends React.Component{
     this.validateImageUrl = this.validateImageUrl.bind(this);
   }
   validateImageUrl(url){
-    if(url.indexOf("imgur") != -1 && url.indexOf("i.imgur") == -1){
+    if(url.indexOf("imgur") !== -1 && url.indexOf("i.imgur") === -1){
       let reversedUrl = url.split('').reverse().join('')
       let imgurId = reversedUrl.substring(0,reversedUrl.indexOf("/")).split('').reverse().join('');
       let finalUrl = `http://i.imgur.com/${imgurId}.png`;
@@ -81,7 +81,14 @@ class PicCard extends React.Component{
     if(url.indexOf("imgur") != -1 && url.indexOf("i.imgur") == -1){
       let reversedUrl = url.split('').reverse().join('')
       let imgurId = reversedUrl.substring(0,reversedUrl.indexOf("/")).split('').reverse().join('');
-      let finalUrl = `http://i.imgur.com/${imgurId}.png`;
+      let finalUrl = `http://i.imgur.com/${imgurId}m.png`;
+      return finalUrl;
+    }
+    if(url.indexOf("i.imgur") !== -1 ){
+      let splitArray = url.split(".");
+      splitArray[2] = splitArray[2] + "m";
+      let finalUrl = splitArray.join('.');
+      console.log(finalUrl);
       return finalUrl;
     }
     return url;
@@ -122,13 +129,13 @@ class Gallery extends React.Component{
        _this.state.loading = true;
         axios.get(`/requestUrl?num=${_this.state.num}&after=${_this.state.after}`).then(function(resp){
           _this.addData(resp.data);
+          console.log(resp.data);
           _this.state.loading = false;
         })
       }
     })
   }
   addData(newData){
-    console.log(newData)
     this.state.num = newData.num;
     this.state.after = newData.after;
     let validated = this.validateUrls(newData)
@@ -148,12 +155,13 @@ class Gallery extends React.Component{
     this.forceUpdate();
   }
   validateUrls(passed){
-    console.log(passed.data);
     return passed.data.filter(function(el){
         if(el.url.indexOf('imgur') > -1)
           return true;
+          /*
         if(el.url.indexOf('.jpg') > -1||el.url.indexOf('.png') > -1)     
-          return true;     
+          return true;  
+          */
         return false; 
       });
   }
