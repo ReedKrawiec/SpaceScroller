@@ -2,6 +2,7 @@ from flask import Flask
 from flask import request
 import requests
 import json
+import math
 
 app = Flask(__name__)
 
@@ -16,7 +17,6 @@ def requestUrl():
   after = request.args.get('after')
   if num == None:
     num = "0"
-    print("hello")
   else:  
     try:
       float(num)
@@ -24,16 +24,21 @@ def requestUrl():
       num = "0" 
   if after == None:
     after = "0"
-  print("num:"+num + " after:"+after)    
-  url = 'https://www.reddit.com/r/spaceporn.json?count='+num+"&after="+after 
+  num = int(num)  
+  num_to_use = math.floor(num/25)*25
+  url = 'https://www.reddit.com/r/spaceporn.json?count='+str(num_to_use)+"&after="+after 
   r = requests.get(url,headers = headers)
   if r.status_code == 200:
-    content = r.json()['data']
-    after = content['after'] #used for accessing the next page of data
-    nextNum = str(int(num) + 25)
+    objectVar = r.json()['data']
+    content = objectVar['children']
+    print(json.dumps(content))
+    if((num+25)%25 == 0):
+      after = objectVar['after'] #used for accessing the next page of data
+    print(after)
+    nextNum = num + 25
     finalObj = {'error':0,'after':after,'num':nextNum}
     dataList = [] 
-    for thread in content['children']:
+    for thread in content:
       threadToAppend = {
         'title':thread['data']['title'],
         'url':thread['data']['url'],
@@ -46,12 +51,3 @@ def requestUrl():
   elif r.status_code == 404:
     finalObj = {'error':1}
     return json.dumps(finalObj)
-
-@app.route('/static/<path:path>')
-def send_js(path):
-    return "meme" + path   
-"""
-@app.route('/static/<path:path>')
-def catch_all(path):
-    return 'You want path: %s' % path 
-"""
