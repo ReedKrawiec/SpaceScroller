@@ -1,15 +1,19 @@
-from flask import Flask
-from flask import request
+from flask import Flask,request, redirect, url_for, session
+from flask_cors import CORS,cross_origin
 import requests
 import json
 import math
 
+
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route('/')
 def hello_world():
     return app.send_static_file('html/index.html')
 
+@cross_origin()
 @app.route('/requestUrl')
 def requestUrl():
   headers = {'User-Agent' : 'SpaceScroller'}
@@ -31,7 +35,6 @@ def requestUrl():
   if r.status_code == 200:
     objectVar = r.json()['data']
     content = objectVar['children']
-    print(json.dumps(content))
     if((num+25)%25 == 0):
       after = objectVar['after'] #used for accessing the next page of data
     print(after)
